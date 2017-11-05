@@ -21,12 +21,6 @@ app.get('/form', (req, res) => {
   res.render('form');
 })
 
-/* handle 'submit' request using 'get' method */
-app.get('/form_receiver', (req, res) => {
-  var _title = req.query.title;
-  var _desc = req.query.desc;
-  res.send(`[Get] Title: ${_title}, Body: ${_desc}`);
-})
 
 /* handle 'submit' request using 'post' method */
 /* need middlewares to parse post body */
@@ -36,6 +30,20 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}))
+
+/* handle module and file */
+const listShower = require('./list-shower.js');
+app.get(['/list', '/list/:title'], listShower)
+
+app.get('/form_add', (req,res) => { res.render('add_list'); })
+app.post('/form_add', require('./list-adder.js'));
+
+/* handle 'submit' request using 'get' method */
+app.get('/form_receiver', (req, res) => {
+  var _title = req.query.title;
+  var _desc = req.query.desc;
+  res.send(`[Get] Title: ${_title}, Body: ${_desc}`);
+})
 
 app.post('/form_receiver', (req, res) => {
   var _title = req.body.title;
