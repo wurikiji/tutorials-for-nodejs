@@ -3,6 +3,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = './uploads'
 const postfix = '-latest'
+
 var storage = multer.diskStorage( {
   destination: (req, file, cb) => {
     cb(null, path)

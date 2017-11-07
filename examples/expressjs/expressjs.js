@@ -4,7 +4,8 @@ const app = express();
 
 app.locals.pretty = true;
 
-/* see uploader.js */
+/* file upload, see uploader.js */
+/* npm install --save multer */
 app.use('/upload', express.static('./uploads'));
 app.get('/upload',require('./uploader.js'));
 app.post('/upload', require('./uploader.js') );
@@ -21,10 +22,6 @@ app.get('/template', (req, res) => {
     _title:`pug template test`
   });
 });
-
-app.get('/form', (req, res) => {
-  res.render('form');
-})
 
 
 /* handle 'submit' request using 'post' method */
@@ -44,6 +41,10 @@ app.get('/form_add', (req,res) => { res.render('add_list'); })
 app.post('/form_add', require('./list-adder.js'));
 
 /* handle 'submit' request using 'get' method */
+app.get('/form', (req, res) => {
+  res.render('form');
+})
+
 app.get('/form_receiver', (req, res) => {
   var _title = req.query.title;
   var _desc = req.query.desc;
@@ -88,7 +89,7 @@ app.get('/query', (req, res) => {
   ]
   var links =``
   for (var i = 0 ;i < language.length; i++) {
-    links += `<a href="/language?id=${i}"> ${language[i]} </a> <br />`
+    links += `<a href="/query?id=${i}"> ${language[i]} </a> <br />`
   }
   links += `This page is for ${language[_id]}`
   res.send(links);
