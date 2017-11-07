@@ -4,6 +4,11 @@ const app = express();
 
 app.locals.pretty = true;
 
+/* see uploader.js */
+app.use('/upload', express.static('./uploads'));
+app.get('/upload',require('./uploader.js'));
+app.post('/upload', require('./uploader.js') );
+
 /* set pug to be used as an view engine */
 /* npm install --save pug */
 app.set('view engine', 'pug');
